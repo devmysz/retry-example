@@ -1,0 +1,23 @@
+# see https://symfony.com/doc/current/reference/configuration/framework.html
+framework:
+    secret: '%env(APP_SECRET)%'
+
+    # Note that the session will be started ONLY if you read or write from it.
+    session: true
+
+    http_client:
+        default_options:
+            timeout: 3
+            retry_failed:
+                http_codes:
+                    0: ['POST']
+                max_retries: 3
+                delay: 30000 # ms
+                multiplier: 3
+                jitter: 0.2
+
+when@test:
+    framework:
+        test: true
+        session:
+            storage_factory_id: session.storage.factory.mock_file
